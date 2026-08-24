@@ -5,7 +5,6 @@ import json
 import os
 
 from expense_tracker.core import Expense, ExpenseStore
-from expense_tracker.validation import validate_expense
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "data.json")
 
@@ -48,7 +47,6 @@ def main(argv=None) -> None:
     store = load_store()
 
     if args.command == "add":
-        validate_expense(args.amount, args.category, args.date)
         store.add_expense(
             Expense(amount=args.amount, category=args.category, date=args.date, note=args.note)
         )
