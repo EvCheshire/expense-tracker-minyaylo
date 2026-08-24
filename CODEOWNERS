@@ -1,0 +1,6 @@
+# Code owners for expense-tracker-minyaylo
+# Required approval from these owners on every pull request touching
+# the listed paths, once branch protection + "Require review from
+# Code Owners" is enabled on GitHub.
+
+* @EvCheshire
