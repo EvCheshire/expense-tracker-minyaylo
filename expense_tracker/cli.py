@@ -5,6 +5,7 @@ import json
 import os
 
 from expense_tracker.core import Expense, ExpenseStore
+from expense_tracker.logging_config import setup_logging
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "..", "data.json")
 
@@ -42,6 +43,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv=None) -> None:
+    setup_logging()
     parser = build_parser()
     args = parser.parse_args(argv)
     store = load_store()
