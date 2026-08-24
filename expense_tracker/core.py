@@ -7,6 +7,7 @@ callers to do the right thing.
 
 import logging
 from dataclasses import dataclass, field
+
 from expense_tracker.validation import validate_expense
 
 logger = logging.getLogger(__name__)
