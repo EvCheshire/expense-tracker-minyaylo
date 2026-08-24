@@ -5,10 +5,13 @@ public API explicit (docstrings + type hints) rather than relying on
 callers to do the right thing.
 """
 
+import logging
 from dataclasses import dataclass, field
 from typing import List
 
 from expense_tracker.validation import validate_expense
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -29,6 +32,7 @@ class ExpenseStore:
 
     def add_expense(self, expense: Expense) -> None:
         """Validate and store a new expense, rounding the amount to cents."""
+        logger.info("adding expense: %s %s", expense.amount, expense.category)
         validate_expense(expense.amount, expense.category, expense.date)
         expense.amount = round(expense.amount, 2)
         self.expenses.append(expense)
