@@ -7,8 +7,6 @@ callers to do the right thing.
 
 import logging
 from dataclasses import dataclass, field
-from typing import List
-
 from expense_tracker.validation import validate_expense
 
 logger = logging.getLogger(__name__)
@@ -28,7 +26,7 @@ class Expense:
 class ExpenseStore:
     """In-memory collection of :class:`Expense` records."""
 
-    expenses: List[Expense] = field(default_factory=list)
+    expenses: list[Expense] = field(default_factory=list)
 
     def add_expense(self, expense: Expense) -> None:
         """Validate and store a new expense, rounding the amount to cents."""
@@ -37,7 +35,7 @@ class ExpenseStore:
         expense.amount = round(expense.amount, 2)
         self.expenses.append(expense)
 
-    def list_expenses(self) -> List[Expense]:
+    def list_expenses(self) -> list[Expense]:
         """Return a copy of all recorded expenses."""
         return list(self.expenses)
 
