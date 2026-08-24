@@ -28,8 +28,9 @@ class ExpenseStore:
     expenses: List[Expense] = field(default_factory=list)
 
     def add_expense(self, expense: Expense) -> None:
-        """Validate and store a new expense."""
+        """Validate and store a new expense, rounding the amount to cents."""
         validate_expense(expense.amount, expense.category, expense.date)
+        expense.amount = round(expense.amount, 2)
         self.expenses.append(expense)
 
     def list_expenses(self) -> List[Expense]:
