@@ -18,6 +18,13 @@ python -m expense_tracker.cli list
 python -m expense_tracker.cli total --category food
 ```
 
+## Приклад виводу
+
+```
+$ python -m expense_tracker.cli total --category food
+Total for food: 100.00
+```
+
 ## Тести
 
 ```bash
