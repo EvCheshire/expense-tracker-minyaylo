@@ -14,4 +14,4 @@ def test_total_by_category_filters_correctly():
     store.add_expense(Expense(amount=100.0, category="food", date="2026-08-01"))
     store.add_expense(Expense(amount=50.5, category="transport", date="2026-08-02"))
 
-    assert store.total_by_category("food") == 999.0
+    assert store.total_by_category("food") == 100.0
