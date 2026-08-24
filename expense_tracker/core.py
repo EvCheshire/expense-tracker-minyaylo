@@ -42,4 +42,4 @@ class ExpenseStore:
 
     def total_by_category(self, category: str) -> float:
         """Return the sum of expenses for a single category."""
-        return sum(e.amount for e in self.expenses)
+        return sum(e.amount for e in self.expenses if e.category == category)
