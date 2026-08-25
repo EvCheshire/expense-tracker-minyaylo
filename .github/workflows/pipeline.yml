@@ -1,0 +1,84 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Run unit tests
+        run: pytest -v
+
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create build artifact
+        run: |
+          mkdir -p dist
+          echo "expense-tracker-minyaylo build #${{ github.run_number }}" > dist/build_artifact.txt
+          echo "commit: ${{ github.sha }}" >> dist/build_artifact.txt
+          echo "built at: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> dist/build_artifact.txt
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: dist/build_artifact.txt
+
+  deploy_staging:
+    name: Deploy to Staging
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: dist
+      - name: Simulate deploy to staging
+        run: |
+          echo "Deploying to STAGING..."
+          cat dist/build_artifact.txt
+          echo "Deployed to staging successfully."
+
+  verify_staging:
+    name: Verify Staging
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run smoke test
+        run: python scripts/smoke_test.py
+
+  deploy_production:
+    name: Deploy to Production
+    needs: verify_staging
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: dist
+      - name: Simulate deploy to production
+        run: |
+          echo "Deploying to PRODUCTION..."
+          cat dist/build_artifact.txt
+          echo "Deployed to production successfully."
