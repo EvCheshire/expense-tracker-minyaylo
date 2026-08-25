@@ -8,7 +8,7 @@ alive" probe against the staging environment.
 
 
 def main():
-    staging_is_healthy = 1 == 1  # simulated health-check result
+    staging_is_healthy = 1 == 2  # simulated health-check result
     assert staging_is_healthy, "smoke test failed: staging environment did not respond as expected"
     print("Smoke test passed: staging is healthy.")
 
